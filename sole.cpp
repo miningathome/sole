@@ -242,6 +242,26 @@ namespace {
     }
 }
 
+// same as normal but without the dashes
+std::string sole::uuid::compressed() const {
+    std::stringstream ss;
+    ss << std::hex << std::nouppercase << std::setfill('0');
+
+    uint32_t a = (ab >> 32);
+    uint32_t b = (ab & 0xFFFFFFFF);
+    uint32_t c = (cd >> 32);
+    uint32_t d = (cd & 0xFFFFFFFF);
+
+    ss << std::setw(8) << (a);
+    ss << std::setw(4) << (b >> 16);
+    ss << std::setw(4) << (b & 0xFFFF);
+    ss << std::setw(4) << (c >> 16 );
+    ss << std::setw(4) << (c & 0xFFFF);
+    ss << std::setw(8) << d;
+
+    return ss.str();
+}
+
 std::string sole::uuid::pretty() const {
     std::stringstream ss;
 
@@ -270,7 +290,7 @@ std::string sole::uuid::pretty() const {
     return ss.str();
 }
 
-std::string sole::uuid::str() const {
+std::string sole::uuid::normal() const {
     std::stringstream ss;
     ss << std::hex << std::nouppercase << std::setfill('0');
 
@@ -288,6 +308,8 @@ std::string sole::uuid::str() const {
 
     return ss.str();
 }
+
+std::string sole::uuid::str() const { return normal(); }
 
 std::string sole::uuid::base62() const {
     return rebase( ab, ::base62 ) + "-" + rebase( cd, ::base62 );
@@ -646,6 +668,21 @@ uuid rebuild( const std::string &uustr ) {
             }
         }
     }
+	else
+	{
+		// possibly compressed version
+		if (uustr.length() == 32)
+		{
+            std::stringstream ss1( uustr.substr(0, 16) );
+			std::stringstream ss2( uustr.substr(16, 32) );
+			if ((ss1 >> std::hex >> a) &&
+				(ss2 >> std::hex >> b))
+			{
+                u.ab = a;
+                u.cd = b;
+            }
+		}
+	}
     return u;
 }
 

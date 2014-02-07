@@ -17,8 +17,10 @@ namespace sole
         bool operator!=( const uuid &other ) const;
         bool operator <( const uuid &other ) const;
 
+		std::string compressed() const;
         std::string pretty() const;
         std::string base62() const;
+		std::string normal() const;
         std::string str() const;
     };
 

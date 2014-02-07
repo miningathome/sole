@@ -10,13 +10,17 @@ endif()
 
 set(HDR_PUBLIC sole.hpp)
 
+# add_executable(sole sole.cpp main.cpp ${HDR_PUBLIC})
 add_library(sole STATIC 
 	sole.cpp
 	${HDR_PUBLIC})
 
 set_target_properties(sole PROPERTIES PUBLIC_HEADER "${HDR_PUBLIC}")
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 install(TARGETS sole
 	LIBRARY DESTINATION lib COMPONENT lib
 	ARCHIVE DESTINATION lib COMPONENT lib
+	RUNTIME DESTINATION bin COMPONENT bin
 	PUBLIC_HEADER DESTINATION include COMPONENT dev)
