@@ -355,7 +355,7 @@ $windows(
 
             // Finally change microseconds to seconds and place in the seconds value.
             // The modulus picks up the microseconds.
-            tv->tv_sec = (tmpres / 1000000UL);
+            tv->tv_sec = static_cast<long>(tmpres / 1000000UL);
             tv->tv_usec = (tmpres % 1000000UL);
         }
 
