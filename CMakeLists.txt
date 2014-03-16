@@ -6,8 +6,11 @@ include(unifier/unifier.cmake)
 
 # shared not supported atm
 set(libtype "STATIC")
+if(CMAKE_COMPILER_IS_GNUCXX)
+	list(APPEND CMAKE_CXX_FLAGS "-std=c++11")
+endif()
 
-if (MSVC)
+if(MSVC)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
