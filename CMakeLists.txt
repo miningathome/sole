@@ -2,9 +2,13 @@ cmake_minimum_required (VERSION 2.8)
 
 project(sole CXX)
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+	list(APPEND CMAKE_CXX_FLAGS "-std=c++11")
+endif()
+
 include(cmake/clean_slate.cmake)
 
-if (MSVC)
+if(MSVC)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
