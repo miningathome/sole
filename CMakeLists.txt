@@ -6,8 +6,14 @@ include(unifier/unifier.cmake)
 
 # shared not supported atm
 set(libtype "STATIC")
+
+# on win-mingw use the less strict gnu++0x to get _tzset in <time.h>
 if(CMAKE_COMPILER_IS_GNUCXX)
-	list(APPEND CMAKE_CXX_FLAGS "-std=c++11")
+	if(WIN32)
+		list(APPEND CMAKE_CXX_FLAGS "-std=gnu++0x")
+	else()
+		list(APPEND CMAKE_CXX_FLAGS "-std=c++11")
+	endif()
 endif()
 
 if(MSVC)
