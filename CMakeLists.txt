@@ -2,7 +2,8 @@ cmake_minimum_required (VERSION 2.8)
 
 project(sole CXX)
 
-include(unifier/unifier.cmake)
+set(vendor "${CMAKE_CURRENT_SOURCE_DIR}/..")
+include(${vendor}/unifier/unifier.cmake)
 
 # shared not supported atm
 set(libtype "STATIC")
